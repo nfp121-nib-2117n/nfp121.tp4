@@ -14,7 +14,7 @@ import java.awt.event.*;
  * @author (votre nom)
  * @version (un numéro de version ou une date)
  */
-public class Controleur extends JPanel {
+public class Controleur extends JPanel implements ActionListener, MouseListener {
 
     private JButton push, add, sub, mul, div, clear;
     private PileModele<Integer> pile;
@@ -34,31 +34,126 @@ public class Controleur extends JPanel {
 
         setLayout(new GridLayout(2, 1));
         add(donnee);
-        donnee.addActionListener(null /* null est à remplacer */);
+        donnee.addActionListener(this);
+        
+        // Add mouse listener to field
+        donnee.addMouseListener(this);
+        
         JPanel boutons = new JPanel();
         boutons.setLayout(new FlowLayout());
-        boutons.add(push);  push.addActionListener(null /* null est à remplacer */);
-        boutons.add(add);   add.addActionListener(null /* null est à remplacer */);
-        boutons.add(sub);   sub.addActionListener(null /* null est à remplacer */);
-        boutons.add(mul);   mul.addActionListener(null /* null est à remplacer */);
-        boutons.add(div);   div.addActionListener(null /* null est à remplacer */);
-        boutons.add(clear); clear.addActionListener(null /* null est à remplacer */);
+        boutons.add(push);  push.addActionListener(this);
+        boutons.add(add);   add.addActionListener(this);
+        boutons.add(sub);   sub.addActionListener(this);
+        boutons.add(mul);   mul.addActionListener(this);
+        boutons.add(div);   div.addActionListener(this);
+        boutons.add(clear); clear.addActionListener(this);
         add(boutons);
         boutons.setBackground(Color.red);
         actualiserInterface();
     }
 
     public void actualiserInterface() {
-        // à compléter
+        donnee.revalidate();
+        push.revalidate();
+        add.revalidate();
+        sub.revalidate();
+        mul.revalidate();
+        div.revalidate();
+        clear.revalidate();
     }
 
     private Integer operande() throws NumberFormatException {
         return Integer.parseInt(donnee.getText());
     }
 
-    // à compléter
-    // en cas d'exception comme division par zéro, 
-    // mauvais format de nombre suite à l'appel de la méthode operande
-    // la pile reste en l'état (intacte)
+    // MouseListener
+    public void mouseClicked(MouseEvent e) {
+        Object source = e.getSource();
+        
+        // Clear text when user presses on textfield
+        if (source == donnee) {
+            donnee.setText("");
+        }
+    }
+  
+    // ActionListener
+    public void actionPerformed(ActionEvent e){
+        Object source = e.getSource();
+        
+        // Push
+        if (source == push) {
+            try {
+                pile.empiler(operande());
+            } catch (Exception exception) {
+                donnee.setText((exception instanceof PilePleineException ? "La pile est pleine!" : "Inserer un nombre valide"));
+            }
+            return;
+        }
+        
+        // Add
+        if (source == add) {
+                try {
+                    pile.empiler(pile.depiler() + pile.depiler());
+                } catch (Exception exception) {
+                    donnee.setText((exception instanceof PilePleineException ? "La pile est pleine!" : "La pile est vide!"));
+                }
+                return;
+        }
+        
+        // Substract
+        if (source == sub) {
+                try{
+                    pile.empiler(pile.depiler() - pile.depiler());
+                } catch(Exception exception) {
+                    donnee.setText((exception instanceof PilePleineException ? "La pile est pleine!" : "La pile est vide!"));
+                }  
+                return;
+        }
+        
+        // Multiply
+        if (source == mul) {
+                try{
+                    pile.empiler(pile.depiler() * pile.depiler());
+                } catch(Exception exception) {
+                    donnee.setText((exception instanceof PilePleineException ? "La pile est pleine!" : "La pile est vide!"));
+                } 
+                return;
+        }
+        
+        // Divide
+        if (source == div) {
+            try{
+                int num1 = pile.depiler();
+                int num2 = pile.depiler();
+                if(num2 == 0) {
+                    pile.empiler(num2);
+                    pile.empiler(num1);
+                    donnee.setText("Erreur Mathematique: interdiction de diviser par 0");
+                } else {
+                    pile.empiler(num1/ num2);   
+                }
+            } catch(Exception exception) {
+                donnee.setText((exception instanceof PilePleineException ? "La pile est pleine!" : "La pile est vide!"));
+            } 
+            return;
+        }
+        
+        // Clear
+        while(!pile.estVide()){
+           try{
+               pile.depiler();
+            } catch(PileVideException exception){
+            }
+        }
+        donnee.setText("");
+    }
+    
+    // Functions of MouseListener class
+    public void mouseEntered(MouseEvent e) {}
 
+    public void mouseExited(MouseEvent e) {}
+
+    public void mousePressed(MouseEvent e) {}
+
+    public void mouseReleased(MouseEvent e) {}
 }

@@ -27,10 +27,32 @@ public class PatternObservateur extends junit.framework.TestCase {
         l1.addObserver(o2);
         l1.insert("test");
         l1.insert(" 1 ");
-        // vérifier que les deux observateurs ont bien été notifiés avec les
-        // bons paramètres
-
-        // à compléter !!
+        
+        // Checking that the two observers have been notified with the right parametres
+        
+        // For the first observer
+        assertFalse(o1.senders().empty());
+        
+        // Check sender
+        assertEquals(l1, o1.senders().pop());
+        assertEquals(l1, o1.senders().pop());
+        
+        // First argument
+        assertEquals(" 1 ", o1.arguments().pop());
+        // Second argument
+        assertEquals("test", o1.arguments().pop());
+        
+        // For the second observer
+        assertFalse(o2.senders().empty());
+        
+        // Check sender
+        assertEquals(l1, o2.senders().pop());
+        assertEquals(l1, o2.senders().pop());
+        
+        // First argument
+        assertEquals(" 1 ", o2.arguments().pop());
+        // Second argument
+        assertEquals("test", o2.arguments().pop());
 
         // ne pas modifier ces lignes, dernières assertions vraies de cette
         // méthode
@@ -50,11 +72,26 @@ public class PatternObservateur extends junit.framework.TestCase {
         l1.insert(" A ");
         l2.insert("testB");
         l2.insert(" B ");
-
-        // à compléter à partir de la ligne 56
-        // vérifier que l'observateur a bien été notifié par les deux listes
-
-        // à compléter !!
+        
+        // Check that the observer have been notified by the two observables with the right parametres.
+        assertFalse(o.senders().empty());
+        
+        // First sender
+        assertEquals(l2, o.senders().pop());
+        assertEquals(l2, o.senders().pop());
+        
+        // Second sender
+        assertEquals(l1, o.senders().pop());
+        assertEquals(l1, o.senders().pop());
+        
+        // First argument
+        assertEquals(" B ", o.arguments().pop());
+        // Second argument
+        assertEquals("testB", o.arguments().pop());
+        // Third argument
+        assertEquals(" A ", o.arguments().pop());
+        // Fourth argument
+        assertEquals("testA", o.arguments().pop());
 
         // ne pas modifier cette ligne, dernière assertion vraie de cette
         // méthode
@@ -72,11 +109,28 @@ public class PatternObservateur extends junit.framework.TestCase {
         l2.addObserver(o1);
         l2.addObserver(o2);
 
-        // à compléter à partir de la ligne 81
-        // vérifier le bon fonctionnement de countObservers(), de deleteObserver
-        // et deleteObservers()
+        // Checking that two methods countObservers(), and deleteObserver() are working as expected
+        
+        // For the first observable
+        assertEquals(2, l1.countObservers());
+        // For the second observable
+        assertEquals(2, l2.countObservers());
 
-        // à compléter !!
+        // Delete the observer o1 from the two observables
+        l1.deleteObserver(o1);
+        l2.deleteObserver(o1);
+        
+        // Check countObservers()
+        assertEquals(1, l1.countObservers());
+        assertEquals(1, l2.countObservers());
+        
+        // Delete the observer o2 from the two observables
+        l1.deleteObserver(o2);
+        l2.deleteObserver(o2);
+    
+        // Check countObservers()
+        assertEquals(0, l1.countObservers());
+        assertEquals(0, l2.countObservers());
 
         // ne pas modifier ces lignes, dernières assertions vraies de cette
         // méthode

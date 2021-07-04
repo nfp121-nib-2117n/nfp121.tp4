@@ -1,6 +1,22 @@
 #BlueJ class context
-comment0.params=pile
-comment0.target=Controleur(PileModele<Integer>)
-comment1.target=void\ actualiserInterface()
-comment2.target=Integer\ operande()
-numComments=3
+comment0.target=Controleur
+comment0.text=\n\ D\u00C3\u00A9crivez\ votre\ classe\ Controleur\ ici.\n\ \n\ @author\ (votre\ nom)\n\ @version\ (un\ num\u00C3\u00A9ro\ de\ version\ ou\ une\ date)\n
+comment1.params=pile
+comment1.target=Controleur(PileModele)
+comment2.params=
+comment2.target=void\ actualiserInterface()
+comment3.params=
+comment3.target=java.lang.Integer\ operande()
+comment4.params=e
+comment4.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment5.params=e
+comment5.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment6.params=e
+comment6.target=void\ mouseEntered(java.awt.event.MouseEvent)
+comment7.params=e
+comment7.target=void\ mouseExited(java.awt.event.MouseEvent)
+comment8.params=e
+comment8.target=void\ mousePressed(java.awt.event.MouseEvent)
+comment9.params=e
+comment9.target=void\ mouseReleased(java.awt.event.MouseEvent)
+numComments=10
